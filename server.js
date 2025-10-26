@@ -1,15 +1,14 @@
 import express from "express";
 import axios from "axios";
+import { randomBytes } from "crypto";
 
 const app = express();
 app.use(express.json());
 
-
 const META_ACCESS_TOKEN = "OC|9402031379905514|117d02345e8bd951b3d5fcd5810e7e38";
 
 app.get("/get-challenge", (req, res) => {
-
-  const challenge = Buffer.from(crypto.randomBytes(16))
+  const challenge = Buffer.from(randomBytes(16))
     .toString("base64")
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
@@ -22,7 +21,7 @@ app.post("/verify-token", async (req, res) => {
 
   try {
     const response = await axios.get(
-      `https://graph.oculus.com/platform_integrity/verify`,
+      "https://graph.oculus.com/platform_integrity/verify",
       {
         params: {
           token: attestation_token,
@@ -38,5 +37,5 @@ app.post("/verify-token", async (req, res) => {
   }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
