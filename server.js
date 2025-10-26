@@ -5,7 +5,7 @@ import { randomBytes } from "crypto";
 const app = express();
 app.use(express.json());
 
-const META_ACCESS_TOKEN = "OC|9402031379905514|117d02345e8bd951b3d5fcd5810e7e38";
+const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
 
 app.get("/get-challenge", (req, res) => {
   const challenge = Buffer.from(randomBytes(16))
